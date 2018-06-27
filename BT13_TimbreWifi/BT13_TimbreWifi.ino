@@ -26,7 +26,7 @@ static const char password[] = "<PASSWORD_DE_TU_WIFI>";
 String lista_correos_notificacion[]={"<CORREO1@gmail.com>","<CORREO2@gmail.com>"};
 
 //Introduce aquí tus tokens
-#define NUMERO_TOKENS_IDENTIFICACION 6
+#define NUMERO_TOKENS_IDENTIFICACION 7
 #define LONGITUD_MAXIMA_UID_NFC 7
 const uint8_t tokens[NUMERO_TOKENS_IDENTIFICACION][LONGITUD_MAXIMA_UID_NFC]={
   {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
@@ -42,7 +42,7 @@ const uint8_t tokens[NUMERO_TOKENS_IDENTIFICACION][LONGITUD_MAXIMA_UID_NFC]={
 //Definiciones para notificaciones
 #define TITULO_NOTIFICACION	"BAJATECNOLOGIA"
 #define CUERPO_NOTIFICACION_TIMBRE	"SUENA EL TIMBRE http://192.168.1.155/abre?token=%ld"
-#define CUERPO_NOTIFICACION_APERTURA_NFC  "PUERTA ABIERTA POR TOKEN NFC"
+#define CUERPO_NOTIFICACION_APERTURA  "PUERTA ABIERTA POR TOKEN NFC"
 #define CUERPO_NOTIFICACION_ORDEN_APERTURA "RECIBIDA ORDEN APERTURA PUERTA"
 #define CUERPO_TOKEN_AISLADO  "TOKEN APERTURA http://192.168.1.155/abre?token=%ld"
 #define TIPO_NOTIFICACION "note"
@@ -285,12 +285,12 @@ void handleInterrupt()
 }
 
 //Compara dos identificadores, aunque el leído sea de 4 bytes, se almacena en un buffer de 7 completado con 0
-bool compara_uids(const uint8_t *uid,const uint8_t *uid2 )
+bool compara_uids(const uint8_t *uid,uint8_t longitud, const uint8_t *uid2 )
 {
   int i=0;
   bool fallido=false;
 
-  while ((i<(LONGITUD_MAXIMA_UID_NFC))&&(!fallido))
+  while ((i<(longitud))&&(!fallido))
   {
     if (uid[i]!=uid2[i])
     {
@@ -373,6 +373,5 @@ void loop()
     }
   }
 }
-
 
 
